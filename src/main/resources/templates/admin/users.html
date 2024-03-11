@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header>
+    <div class="header-class">
+        <div class="details">
+            <p th:text="'name: ' + ${userDetails.getUser().firstName}">Details</p>
+            <p th:text="'role: ' + ${userDetails.getUser().getRoles()}"></p>
+        </div>
+        <div>
+            <button type="button-header" onclick="window.location.href = '/admin/users'">Go to All Users</button>
+            <button type="button-header" onclick="window.location.href = '/'">Home Page</button>
+        </div>
+        <div>
+            <form type="button-header" th:action="@{/logout}" th:method="POST">
+                <button class="logout" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <h3>Users: </h3>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Last Name</th>
+            <th>Roles</th>
+            <th>Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userList}">
+            <td th:text="${user.getId}">ID</td>
+            <td th:text="${user.firstName}">Name</td>
+            <td th:text="${user.lastName}">Last Name</td>
+            <td th:text="${user.getRoles()}">Roles</td>
+            <td>
+                <a th:href="'admin/updateUser?id=' + ${user.id}">Update</a>
+                <span> | </span>
+                <a th:href="'admin/removeUser?id=' + ${user.id}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

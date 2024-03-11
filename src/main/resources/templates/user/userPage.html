@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header>
+    <div class="header-class">
+        <button type="button-header" onclick="window.location.href = '/admin/users'">Go to All Users</button>
+        <button type="button-header" onclick="window.location.href = '/'">Home Page</button>
+        <div>
+            <form type="button-header" th:action="@{/logout}" th:method="POST">
+                <button class="logout" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+
+    <h1>User, welcome spring boot security page!</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th>firstName</th>
+            <th>lastName</th>
+            <th>Authorities</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+
+            <td th:text="${myUserDetails.getUser().firstName}">firstName</td>
+            <td th:text="${myUserDetails.getUser().lastName}">lastName</td>
+            <td th:text="${myUserDetails.getAuthorities()}">getAuthorities</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
