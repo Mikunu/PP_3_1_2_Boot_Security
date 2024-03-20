@@ -38,7 +38,7 @@ public class AdminController {
         this.roleValidator = roleValidator;
     }
 
-    @GetMapping("/users")
+    @GetMapping("users")
     public String getAllUsers(Model model, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
@@ -50,38 +50,34 @@ public class AdminController {
         return "admin/users";
     }
 
-    @GetMapping("admin/removeUser")
+    @GetMapping("removeUser")
     public String removeUser(@RequestParam("id") Long id) {
         adminService.removeUser(id);
         return "redirect:/admin/users";
     }
 
-    @GetMapping("/admin/updateUser")
+    @GetMapping("updateUser")
     public String getEditUserForm(Model model, @RequestParam("id") Long id) {
-        model.addAttribute("person", adminService.findOneById(id));
+        model.addAttribute("user", adminService.findOneById(id));
         model.addAttribute("roles", roleService.getRoles());
         return "admin/userUpdate";
     }
 
-    @PostMapping("/updateUser")
-    public String postEditUserForm(@ModelAttribute("person") @Valid User user,
-                                   BindingResult personBindingResult,
+    @PostMapping("updateUser")
+    public String postEditUserForm(@ModelAttribute("user") @Valid User user,
+                                   BindingResult userBindingResult,
                                    @RequestParam(value = "roles", required = false) @Valid List<String> roles,
                                    BindingResult rolesBindingResult,
                                    RedirectAttributes redirectAttributes) {
 
-        System.out.println();
-        userValidator.validate(user, personBindingResult);
-        if (personBindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errorsPerson", personBindingResult.getAllErrors());
-            return "/admin/userUpdate";
-        }
-
-
+        userValidator.validate(user, userBindingResult);
         roleValidator.validate(roles, rolesBindingResult);
-        if (rolesBindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("errorsRoles", rolesBindingResult.getAllErrors());
-            return "/admin/userUpdate";
+
+        for (BindingResult bindingResult : new BindingResult[]{userBindingResult, rolesBindingResult}) {
+            if (bindingResult.hasErrors()) {
+                redirectAttributes.addFlashAttribute("errorValidation", bindingResult.getAllErrors());
+                return "/admin/userUpdate";
+            }
         }
 
         adminService.updateUser(user, roles);
