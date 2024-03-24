@@ -13,7 +13,7 @@
 </header>
 <div class="container">
     <h2>Modify User</h2>
-    <form th:method="POST" th:action="@{/admin/updateUser}" th:object="${person}">
+    <form th:method="POST" th:action="@{/admin/updateUser}" th:object="${user}">
 
         <input hidden="hidden" type="number" th:field="*{id}" id="idAdd" placeholder="id">
 

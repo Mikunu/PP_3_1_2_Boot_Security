@@ -9,7 +9,7 @@ public interface AdminService {
 
     User findUserByName(String firstName);
 
-    void updateUser(User person, List<String> roles);
+    void updateUser(User user, List<String> roles);
 
     void removeUser(Long id);
 

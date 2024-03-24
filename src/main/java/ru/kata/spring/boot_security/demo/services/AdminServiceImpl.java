@@ -44,17 +44,17 @@ public class AdminServiceImpl implements AdminService {
 
 
     @Override
-    public void updateUser(User person, List<String> roles) {
-        User beforeUpdate = userRepository.getById(person.getId());
-        person.setPassword(beforeUpdate.getPassword());
+    public void updateUser(User user, List<String> roles) {
+        User beforeUpdate = userRepository.getById(user.getId());
+        user.setPassword(beforeUpdate.getPassword());
         Set<Role> roleSet = roles.stream()
                 .map(Long::valueOf)
                 .map(roleRepository::findById)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toSet());
-        person.setRoles(roleSet);
-        userRepository.save(person);
+        user.setRoles(roleSet);
+        userRepository.save(user);
     }
 
     @Override
